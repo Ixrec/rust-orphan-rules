@@ -90,6 +90,8 @@ That's all the high-level cases I'm aware of. If I missed something, please open
 
 https://github.com/Ixrec/rust-orphan-rules/issues/1 is a timeline of Rust RFCs, issues and blog posts relevant to the orphan rules, with many links
 
+https://github.com/Ixrec/rust-orphan-rules/issues/9 is a list of how other languages handle these issues (currently very much a stub)
+
 ## License
 
 This repository is licensed under either of
