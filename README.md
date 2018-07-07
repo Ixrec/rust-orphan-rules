@@ -54,7 +54,7 @@ To dramatically oversimplify it: there are a lot of `impl`s that people want to 
 
 However, in many cases this desire is an "[XY problem](https://meta.stackexchange.com/a/66378/279182)", and there's actually a much better solution that doesn't involve writing an orphan impl at all. **I'm hoping this repo can help clarify which use cases are XY problems, which are merely theoretical and which are genuine pain points**. I suspect that alone will make it obvious what, if anything, Rust should change.
 
-- In some cases, the `impl` really does need to be provided by `Type`'s crate or `Trait`'s crate for reasons unrelated to the orphan rules, so the orphan rules complaint is simply a red herring. See the [core traits issue] for detailed explanations (and feedback if you disagree), but in short:
+- In some cases, the `impl` really does need to be provided by `Type`'s crate or `Trait`'s crate for reasons unrelated to the orphan rules, so the orphan rules complaint is simply a red herring. See the [core traits issue](https://github.com/Ixrec/rust-orphan-rules/issues/2) for detailed explanations (and feedback if you disagree), but in short:
 
   - I believe this applies to `std` traits like `Ord`, `Eq`, `Hash`, etc, as well as serde's `Serialize` and `Deserialize` (which seem to be the most common source of orphan rule complaints).
 
@@ -62,13 +62,13 @@ However, in many cases this desire is an "[XY problem](https://meta.stackexchang
 
 - In many cases, the "newtype pattern" is theoretically the best solution. This means creating a brand new type `NewType` within your crate that is nothing but a wrapper around `Type`, so you can provide whatever `impl`s you want for it. This trivially and elegantly solves "the hashtable problem" because newtypes are completely separate types, so there's simply no ambiguity about what code is supposed to call what impl, no matter how many other crates create similar newtypes or even newtypes of your newtypes.
 
-  - There are many use cases where creating such a newtype is tedious because several methods and traits must be reimplemented for it by simply delegating to the original type. If you have such a use case, please describe it on the [tedious newtypes issue]().
+  - There are many use cases where creating such a newtype is tedious because several methods and traits must be reimplemented for it by simply delegating to the original type. If you have such a use case, please describe it on the [tedious newtypes issue](https://github.com/Ixrec/rust-orphan-rules/issues/3).
 
-  - There are proposals for adding a "delegation" feature to Rust, which should help reduce the tedium of newtyping. Please post on the [how much does delegation help?]() issue whether or not delegation would solve your use case.
+  - There are proposals for adding a "delegation" feature to Rust, which should help reduce the tedium of newtyping. Please post on the [How much would delegation help?](https://github.com/Ixrec/rust-orphan-rules/issues/4) issue whether or not delegation would solve your use case.
 
   - Cases where newtypes are the theoretically correct solution are often cases where, in languages like C++ or Java with "traditional inheritance", you would use inheritance to create a subclass implementing the same interface as the base class. Today, traditional inheritance often seems more convenient than Rust's trait system because it delegates all the methods by default. This is part of the reason delegation is expected to improve newtyping.
 
-  - As far as I know, there are no practical use cases where newtyping is _impossible_, only cases where it's tedious. If you believe you know of a counterexample, please post on the [are newtypes always an option?]() issue.
+  - As far as I know, there are no practical use cases where newtyping is _impossible_, only cases where it's tedious. If you believe you know of a counterexample, please post on the [Are newtypes always an option?](https://github.com/Ixrec/rust-orphan-rules/issues/5) issue.
 
 - In some cases, the desired `impl` probably should exist, and client code should not have to provide it via a newtype, but there's no obvious "home" for the `impl` because the trait and type are defined in separate crates.
 
@@ -76,9 +76,9 @@ However, in many cases this desire is an "[XY problem](https://meta.stackexchang
 
     - One downside is that this forces all users of `linear-algebra` to depend on `num-traits`, even if they don't care about those `impl`s. The best known proposal for solving this is [RFC #1787 "Automatic Features"](https://github.com/rust-lang/rfcs/pull/1787), which was postponed not due to any problems with the RFC itself but because cargo features in general need a rethink.
 
-  - Sometimes neither the type's crate or the trait's crate is a good home. For example, `chrono` types should implement `diesel` traits, so that you can easily pass date/time types to your database code, but it's generally agreed that those `impl`s don't belong in either crate. As far as I know, **Rust has no good answer for this today**, not even a proposal. Please post on the [official orphans issue]() if you know of any compelling use cases that fit this category or have any thoughts on how we might solve it.
+  - Sometimes neither the type's crate or the trait's crate is a good home. For example, `chrono` types should implement `diesel` traits, so that you can easily pass date/time types to your database code, but it's generally agreed that those `impl`s don't belong in either crate. As far as I know, **Rust has no good answer for this today**, not even a proposal. Please post on the [official orphans issue](https://github.com/Ixrec/rust-orphan-rules/issues/7) if you know of any compelling use cases that fit this category or have any thoughts on how we might solve it.
 
-- In some cases, the use case will likely be solved by specialization. Please post on the [How much does specialization help?]() issue if you know of such a use case.
+- In some cases, the use case will likely be solved by specialization. Please post on the [How much does specialization help?](https://github.com/Ixrec/rust-orphan-rules/issues/6) issue if you know of such a use case.
 
 - In some complex cases, the desired `impl` doesn't "feel" like an orphan impl, although it technically is one by today's rules. These are the cases that probably should be addressed by changing the precise statement of the orphan rules.
 
