@@ -1,6 +1,6 @@
 # Coherence and Orphan Rules in Rust
 
-This repo is an unofficial, experimental attempt to explain what the Coherence / Orphan Rules Dilemma is, and provide clear places where the community can aggregate specific kinds of feedback on this complex issue, inspired by and suggested on https://internals.rust-lang.org/t/blog-post-proposal-for-a-staged-rfc-process/7766.
+This repo is an unofficial, experimental attempt to explain the design challenges of coherence and the orphan rules in Rust, and provide clear places where the community can aggregate specific kinds of feedback on this complex issue, inspired by and suggested on https://internals.rust-lang.org/t/blog-post-proposal-for-a-staged-rfc-process/7766.
 
 We do not expect any prior knowledge of type theory or other programming languages. The summaries and explanations in this repo are aimed at anyone with a basic understanding of Rust. Specifically, if you know most of what's in [The Book](https://doc.rust-lang.org/book/), then everything here should make sense, and your feedback is welcome (and if something doesn't make sense, please open an issue).
 
@@ -8,7 +8,7 @@ Discussion on this repo might lead to PRs to improve the compiler, the developme
 
 # What is Coherence?
 
-In Rust, "Trait Coherence" (or simply "Coherence") is the property that there is **at most one implementation** of a trait for any given type.
+In Rust, "trait coherence" (or simply "coherence") is the property that there is **at most one implementation** of a trait for any given type.
 
 Any programming language that has a feature like traits or interfaces must either:
 - Enforce coherence by simply refusing to compile programs that contain conflicting implementations
@@ -32,9 +32,9 @@ Incidentally, Googling "the hashtable problem" will turn up a lot of the early R
 
 Rust enforces trait coherence through two sets of rules:
 
-- The "overlap rules" forbid you from writing two `impl` blocks that "overlap", i.e. apply to some of the same types. For example, `impl<T: Debug> Quack for T` overlaps with `impl<T: Display> Quack for T` because some types might implement both Debug and Display, so you can't write both.
+- The "overlap rules" forbid you from writing two `impl` blocks that "overlap", i.e. apply to some of the same types. For example, `impl<T: Debug> Trait for T` overlaps with `impl<T: Display> Trait for T` because some types might implement both `Debug` and `Display`, so you can't write both.
 
-	- The current plan is to dramatically relax these rules with a feature called "specialization". We will not discuss the details of specialization here, but it seems uncontroversial that we want some form specialization in Rust, so it's worth keeping in mind.
+	- The current plan is to dramatically relax these rules with a feature called "specialization". We will not discuss the details of specialization here, but it seems uncontroversial that we want some form of specialization in Rust, so it's worth keeping in mind.
 
 - The "orphan rules", very roughly speaking, forbid you from writing an `impl` where both the trait and the type are defined in a different crate. This is meant to:
 
@@ -42,17 +42,17 @@ Rust enforces trait coherence through two sets of rules:
 
 	- Allow crates to add `impl`s for their traits and types without it being considered a breaking change. Without the orphan rules, no crate would ever be allowed to add an `impl` in a minor or patch version because that would break any program that contained an overlapping `impl`.
 
-The precise statement of the orphan rules is rather technical because you have to deal with generics like `impl Trait<Foo, Bar> for Type<Baz, Quux>` (["Little Orphan Impls"](http://smallcultfollowing.com/babysteps/blog/2015/01/14/little-orphan-impls/) is a good introduction to this design space), and [the #[fundamental] attribute](https://github.com/rust-lang/rfcs/pull/1023). Plus, [we might be changing them again soon](https://github.com/rust-lang/rfcs/pull/2451).
+The precise statement of the orphan rules is rather technical because of generics like `impl Trait<Foo, Bar> for Type<Baz, Quux>` (see ["Little Orphan Impls"](http://smallcultfollowing.com/babysteps/blog/2015/01/14/little-orphan-impls/)), and [the #[fundamental] attribute](https://github.com/rust-lang/rfcs/pull/1023), and [OIBITs/auto traits](https://github.com/rust-lang/rfcs/pull/127), and probably something else I'm forgetting about. Plus, [we might be changing them again soon](https://github.com/rust-lang/rfcs/pull/2451).
 
 Most Rustaceans stick to the simplification that "either the type or trait must be from the same crate" since it's very easy to remember and is accurate in the most typical cases. Here, we'll only bring up the technical details for specific issues where they do become relevant.
 
 # Why are the Orphan Rules controversial?
 
-This is where things get interesting, and where we want your input.
+This is where things get interesting, and where **we want your input**.
 
 To dramatically oversimplify it: there are a lot of `impl`s that people want to write, but they currently cannot write because of these rules.
 
-However, in many cases this desire is an "XY problem", and there's actually a much better solution that doesn't involve writing an orphan impl at all. **One of my biggest hopes with this repo is to clear up which use cases are XY problems, which are merely theoretical and which are genuine pain points**. I suspect that alone will make it a lot clearer what, if anything, Rust should change.
+However, in many cases this desire is an "[XY problem](https://meta.stackexchange.com/a/66378/279182)", and there's actually a much better solution that doesn't involve writing an orphan impl at all. **I'm hoping this repo can help clarify which use cases are XY problems, which are merely theoretical and which are genuine pain points**. I suspect that alone will make it obvious what, if anything, Rust should change.
 
 - In some cases, the `impl` really does need to be provided by `Type`'s crate or `Trait`'s crate for reasons unrelated to the orphan rules, so the orphan rules complaint is simply a red herring. See the [core traits issue] for detailed explanations (and feedback if you disagree), but in short:
 
