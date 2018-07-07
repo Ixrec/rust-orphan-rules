@@ -84,47 +84,11 @@ However, in many cases this desire is an "[XY problem](https://meta.stackexchang
 
   - See https://github.com/rust-lang/rfcs/issues/1856 and https://github.com/rust-lang/rfcs/pull/2451 for very recent, unfinished discussions about these cases.
 
-That's all the high-level cases I'm aware of. If you think I missed something, please open an issue.
+That's all the high-level cases I'm aware of. If I missed something, please open an issue.
 
-# A Brief History of Rust's Orphan Rules
+# Miscellaneous
 
-I'm sure this is incomplete. Pull requests welcome!
-
-Mar 2014 - [RFC #19 "Opt-in builtin traits" is posted](https://github.com/rust-lang/rfcs/pull/19) and [accepted](https://github.com/rust-lang/rfcs/pull/19#issuecomment-38627909). This RFC discussed the special case in the coherence rules we need for OIBITs/auto traits.
-
-Apr 2014 - [RFC #48 "Trait reform"](https://github.com/rust-lang/rfcs/pull/48) covers a _lot_ of ground, but one of its many goals was to "Expand coherence rules to operate recursively and distinguish orphans more carefully." I think this is the first RFC to explicitly define and discuss coherence, and state that it's enforced through a combination of overlap and orphan rules.
-
-Jun 2014 - [RFC #127 "Opt-in builtin traits, take 2: default and negative impls" is posted](https://github.com/rust-lang/rfcs/pull/127). At least for me, it's much easier to understand the special case here than it was in RFC #19: "Negative impls are subject to the usual orphan rules, but they are permitting to be overlapping. This makes sense because negative impls are not providing an implementation ..."
-
-Sep 2014 - [RFC #127 "Opt-in builtin traits, take 2: default and negative impls" is accepted](https://github.com/rust-lang/rfcs/pull/127).
-
-Jan 2015 - [RFC #586 "Negative bounds" is posted)[https://github.com/rust-lang/rfcs/pull/586]. Technically only changes the overlap rules, not the orphan rules, but this might cover some of the use cases that make people suggest orphan rule changes.
-
-Jan 2015 - [Niko's "Little Orphan Impls" blog post](http://smallcultfollowing.com/babysteps/blog/2015/01/14/little-orphan-impls/). If you're still wondering why coherence/orphan rules are such a hard problem, this is the one link you should definitely read.
-
-Mar 2015 - [RFC #1023 "Rebalancing Coherence" is posted](https://github.com/rust-lang/rfcs/pull/1023). This is the RFC that introduced the #[fundamental] attribute. It was accepted and implemented a month later in April.
-
-Apr 2015 - [RFC #586 "Negative bounds" is postponed)[https://github.com/rust-lang/rfcs/pull/586#issuecomment-91562382] because "There is too much in flight."
-
-Apr 2015 - [RFC #1023 "Rebalancing Coherence" is accepted](https://github.com/rust-lang/rfcs/pull/1023#issuecomment-88278874) and implemented.
-
-May 2015 - Rust 1.0 released.
-
-Jun 2015 - [RFC #1148 "Mutually exclusive traits" is posted](https://github.com/rust-lang/rfcs/pull/1148).
-
-Jun 2015 - [RFC #1210 "impl specialization" is posted](https://github.com/rust-lang/rfcs/pull/1210). Technically only changes the overlap rules, not the orphan rules, but this might cover some of the use cases that make people suggest orphan rule changes.
-
-Feb 2016 - [RFC #1210 "impl specialization" is accepted](https://github.com/rust-lang/rfcs/pull/1210#issuecomment-187777838).
-
-Apr 2016 - [RFC #1148 "Mutually exclusive traits" is postponed](https://github.com/rust-lang/rfcs/pull/1148#issuecomment-207610749) because "it makes sense to wait until the specialization implementation has progressed a bit farther before we make any decision here." but "there will be a role for negative reasoning", and "the broad outlines of this RFC are correct."
-
-Jan 2017 - [Rust issue #1856](https://github.com/rust-lang/rfcs/issues/1856) "Orphan rules are stricter than we would like" is created, and most of the discussion on it happens this same month. This appears to contain the most recent opinions of several core team members on the precise orphan rules and how to improve them.
-
-May 2017 - [RFC #2451 "Re-Rebalancing Coherence" is posted](https://github.com/rust-lang/rfcs/pull/2451). As of this writing, this RFC is still open.
-
-Jul 2017 - [RFC #2052 "Evolving Rust through Epochs" is posted](https://github.com/rust-lang/rfcs/pull/2052). I'm including this because of the explicit statement that "Trait coherence rules, like the "orphan" rule" cannot be changed via editions.
-
-Apr 2018 - [Aturon's "Sound and ergonomic specialization for Rust" blog post](http://aturon.github.io/2018/04/05/sound-specialization/). There are many other blog posts about why specialization soundness is hard, but I think this is the most recent one and represents the current status.
+https://github.com/Ixrec/rust-orphan-rules/issues/1 is a timeline of Rust RFCs, issues and blog posts relevant to the orphan rules, with many links
 
 ## License
 
