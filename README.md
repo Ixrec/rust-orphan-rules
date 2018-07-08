@@ -82,7 +82,7 @@ However, in many cases this desire is an "[XY problem](https://meta.stackexchang
 
 - In some complex cases, the desired `impl` doesn't "feel" like an orphan impl, although it technically is one by today's rules. These are the cases that probably should be addressed by changing the precise statement of the orphan rules.
 
-  - See https://github.com/rust-lang/rfcs/issues/1856 and https://github.com/rust-lang/rfcs/pull/2451 for very recent, unfinished discussions about these cases.
+  - See https://github.com/rust-lang/rfcs/issues/1856 and https://github.com/rust-lang/rfcs/pull/2451 for very recent, unfinished discussions about these cases. Since this discussion is already active, I'm going to avoid creating dedicated issues about these details here until the dust settles on RFC #2451.
 
 That's all the high-level cases I'm aware of. If I missed something, please open an issue.
 
