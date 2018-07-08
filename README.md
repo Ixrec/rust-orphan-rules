@@ -1,8 +1,8 @@
 # Coherence and Orphan Rules in Rust
 
-This repo is an unofficial, experimental attempt to explain the design challenges of coherence and the orphan rules in Rust, and provide clear places where the community can aggregate specific kinds of feedback on this complex issue (inspired by and suggested on https://internals.rust-lang.org/t/blog-post-proposal-for-a-staged-rfc-process/7766). We do not expect any prior knowledge of type theory or other programming languages; if you know most of what's in [The Book](https://doc.rust-lang.org/book/), then everything here should make sense (if not, please open an issue).
+This repo is an unofficial, experimental attempt to explain the design challenges of coherence and the orphan rules in Rust, and provide clear places where the community can aggregate specific kinds of feedback on this complex issue (inspired by and suggested on [this internals thread](https://internals.rust-lang.org/t/blog-post-proposal-for-a-staged-rfc-process/7766)). We do not expect any prior knowledge of type theory or other programming languages; if you know most of what's in [The Book](https://doc.rust-lang.org/book/), then everything here should make sense (if not, please open an issue).
 
-Discussion on this repo might lead to PRs to improve the compiler, the development of third-party crates, the drafting of new RFCs, convincing everyone that the status quo is the least of many evils, or merely providing a convenient link the next time someone asks about these problems. Any of those would be considered a success.
+Discussion on this repo might lead to PRs to improve compiler diagnostics, the development of third-party crates, the drafting of new RFCs, convincing everyone that the status quo is the least of many evils, or merely providing a convenient link the next time someone asks about these problems. Any of those would be considered a success.
 
 # What is Coherence?
 
