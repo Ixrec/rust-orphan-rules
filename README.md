@@ -38,7 +38,7 @@ Rust enforces trait coherence through two sets of rules:
 
 	- Allow crates to add `impl`s for their traits and types without it being considered a breaking change. Without the orphan rules, no crate would ever be allowed to add an `impl` in a minor or patch version because that would break any program that contained an overlapping `impl`.
 
-The precise statement of the orphan rules is rather technical because of generics like `impl Trait<Foo, Bar> for Type<Baz, Quux>` (see ["Little Orphan Impls"](http://smallcultfollowing.com/babysteps/blog/2015/01/14/little-orphan-impls/)), and [the #[fundamental] attribute](https://github.com/rust-lang/rfcs/pull/1023), and [OIBITs/auto traits](https://github.com/rust-lang/rfcs/pull/127), and probably something else I'm forgetting about. Plus, [we might be changing them again soon](https://github.com/rust-lang/rfcs/pull/2451).
+The precise statement of the orphan rules is rather technical because of generics like `impl Trait<Foo, Bar> for Type<Baz, Quux>` (see ["Little Orphan Impls"](http://smallcultfollowing.com/babysteps/blog/2015/01/14/little-orphan-impls/)), and [the #[fundamental] attribute](https://github.com/rust-lang/rfcs/pull/1023), and [OIBITs/auto traits](https://github.com/rust-lang/rfcs/pull/127), and probably something else I'm forgetting about. Today, I believe the most official and up to date precise statement of the orphan rules is [RFC #2451](https://github.com/rust-lang/rfcs/blob/master/text/2451-re-rebalancing-coherence.md), accepted in October 2018 and implemented in January 2019.
 
 Most Rustaceans stick to the simplification that "either the type or trait must be from the same crate" since it's very easy to remember and is accurate in the most typical cases.
 
